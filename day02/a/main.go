@@ -25,19 +25,16 @@ func cube_conumdrum(line string) bool {
 			quantity, _ := strconv.ParseUint(aux, 10, 64)
 			if color == "red" {
 				sR += quantity
-				if sR > 12 {
-					return false
-				}
+
 			} else if color == "green" {
 				sG += quantity
-				if sG > 13 {
-					return false
-				}
+
 			} else {
 				sB += quantity
-				if sB > 14 {
-					return false
-				}
+
+			}
+			if sR > 12 || sG > 13 || sB > 14 {
+				return false
 			}
 		}
 		sR, sB, sG = 0, 0, 0
