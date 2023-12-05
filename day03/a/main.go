@@ -25,12 +25,10 @@ func gear_ratios(m [][]string) {
 			_, err := strconv.ParseUint(m[i][j], 10, 64)
 			if err == nil {
 				str += m[i][j]
-			} else {
-				if str != "" {
-					number, _ := strconv.ParseUint(str, 10, 64)
-					part_numbers = append(part_numbers, part_number{number, i, j - 1, len(strconv.Itoa(int(number))), false})
-					str = ""
-				}
+			} else if str != "" {
+				number, _ := strconv.ParseUint(str, 10, 64)
+				part_numbers = append(part_numbers, part_number{number, i, j - 1, len(strconv.Itoa(int(number))), false})
+				str = ""
 			}
 		}
 		if str != "" {

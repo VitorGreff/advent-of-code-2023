@@ -9,11 +9,11 @@ import (
 	"strings"
 )
 
-func cube_conumdrum(line string) bool {
+func cube_conumdrum(line string) uint64 {
 	var (
-		cR uint64
-		cG uint64
-		cB uint64
+		maxR uint64
+		maxG uint64
+		maxB uint64
 	)
 	game := strings.Split(line, ": ")[1]
 	sets := strings.Split(game, "; ")
@@ -24,24 +24,26 @@ func cube_conumdrum(line string) bool {
 			aux, color := strings.Split(cubes[i], " ")[0], strings.Split(cubes[i], " ")[1]
 			quantity, _ := strconv.ParseUint(aux, 10, 64)
 			if color == "red" {
-				cR += quantity
+				if maxR < quantity {
+					maxR = quantity
+				}
 			} else if color == "green" {
-				cG += quantity
+				if maxG < quantity {
+					maxG = quantity
+				}
 			} else {
-				cB += quantity
-			}
-			if cR > 12 || cG > 13 || cB > 14 {
-				return false
+				if maxB < quantity {
+					maxB = quantity
+				}
 			}
 		}
-		cR, cB, cG = 0, 0, 0
 	}
-	return true
+	return maxR * maxG * maxB
 }
 func main() {
 	var (
-		arr []bool
-		sum int
+		arr []uint64
+		sum uint64
 	)
 	file, err := os.Open("../2.txt")
 	if err != nil {
@@ -54,10 +56,8 @@ func main() {
 		line := scanner.Text()
 		arr = append(arr, cube_conumdrum(line))
 	}
-	for i, b := range arr {
-		if b {
-			sum += i + 1
-		}
+	for _, v := range arr {
+		sum += v
 	}
-	fmt.Println("Part 1: ", sum)
+	fmt.Println("Part 2: ", sum)
 }
